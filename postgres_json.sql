@@ -22,8 +22,29 @@
 --Creating tables with JSONB data type 
 
 CREATE TABLE journal(
-    id INT NOT NULL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     day VARCHAR (30) NOT NULL,
     diary_information JSONB
 );
+
+--Inserting data 
+
+INSERT INTO journal (day, diary_information)
+VALUES ("Tuesday", '{"title": "My first day at work", "Feeling": "Mixed feeling"}');
+
+
+--- Retrieving information 
+
+SELECT * FROM journal;
+
+
+---Functions and operators  allow you to store, manipulate and query data in json format 
+-- in PostgreSQL
+
+--Here are some commonly used PostgreSQL functions and operators used in working with
+--json files
+
+--  -> This operator allows you to extract a specific value from JSON object, you
+-- specify the key as a "child" to the "parent"
+
 
