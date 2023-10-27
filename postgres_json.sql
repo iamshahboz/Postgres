@@ -20,3 +20,10 @@
 --JSONB stores json in binary format which enables faster indexing and query performance 
 
 --Creating tables with JSONB data type 
+
+CREATE TABLE journal(
+    id INT NOT NULL PRIMARY KEY,
+    day VARCHAR (30) NOT NULL,
+    diary_information JSONB
+);
+
