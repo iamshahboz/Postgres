@@ -47,4 +47,59 @@ SELECT * FROM journal;
 --  -> This operator allows you to extract a specific value from JSON object, you
 -- specify the key as a "child" to the "parent"
 
+SELECT day, diary_information->'Feeling' as Feeling
+FROM journal;
+
+-- ->> This operator allows you to extract a JSON object field as text without the quotes
+--around it from a json object 
+
+SELECT day, diary_information->> 'Feeling' as Feeling 
+FROM journal;
+
+--json_agg This function aggregates JSON values into a json array
+
+--For instance 
+SELECT json_agg(my_column) FROM my_table; --will return a json array containing the values
+-- in the "my_column" column of "my_table" table 
+
+--jsonb_set This function updates a JSON object with the new value. For example 
+
+UPDATE my_table SET json_column = jsonb_set(
+    json_column, '{field_name}, "new_value"'
+
+) WHERE id=1
+
+
+--For example 
+UPDATE journal 
+SET diary_information = jsonb_set(
+    diary_information, '{Feeling}', '"Exited"'
+) WHERE id =1;
+
+
+--JSON_BUILD_OBJECT 
+--You can use JSON_BUILD_OBJECT function to insert a plain text record and this will
+--convert it to JSON data.
+
+JSON_BUILD_OBJECT('Morning','Everybody is annoying today','Evening','Cannot wait to go home')
+
+
+--This will create a value that looks like this 
+{"Morning":"Everybody is annoying today","Evening":"Cannot wait to go home"}
+
+
+--Using this function in an insert statement 
+
+INSERT INTO journal (day,feeling)
+VALUES (
+    'Wednesday', 
+    JSON_BUILD_OBJECT(
+        'Tired',
+        'Everybody is annoying today',
+        'Hungry',
+        'Can not wait to go home'
+    )
+);
+
+
 
