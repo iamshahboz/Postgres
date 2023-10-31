@@ -101,5 +101,31 @@ VALUES (
     )
 );
 
+--How to insert JSON arrays into tables
+
+--Suppose you have a table callaed employees with columns id, name and skills.
+--The skill column stores an array of JSON object representing the skills of each
+--employee 
+
+--To insert a new employee record with the following details 
+
+/*
+
+id 1
+name John
+skills [{"name": "Python","level":"Intermediate"},{"name": "JavaScript","level":"Expert"}]
+
+You can use the following statement
+
+*/
+
+INSERT INTO employees (id,name,skills)
+VALUES 
+(
+    1, 'John', '[{"name":"Python","level":"Intermediate"},{"name":"JavaScript","level":"Expert"}]'
+
+);
+
+
 
 
