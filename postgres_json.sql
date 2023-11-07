@@ -152,3 +152,5 @@ skills @> '[{"name":"Python"}]'::jsonb
 
 
 
+
+
