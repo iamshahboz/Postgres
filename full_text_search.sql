@@ -75,3 +75,38 @@ You want to find documents that contain either 'Paris' or 'London' or both
 
 SELECT name, artist, text FROM test.dragon WHERE to_tsvector(text) @@ to_tsquery('Paris | London');
 
+-- Search in multiple fields
+
+SELECT name, artist, text FROM test.dragon
+WHERE to_tsvector(name || ' ' || text ) @@ to_tsquery('Jack')
+
+-- All the methods we have seen earlier they might be slow when you have a very big database
+
+--Now we see how we can make it faster 
+
+ALTER TABLE test.dragon
+ADD COLUMN document tsvector;
+
+update test.dragon 
+set document = to_tsvector(name || ' ' || artist || ' ' || text);
+
+--now we can select like this
+
+SELECT name, artist, text FROM test.dragon 
+WHERE document @@ to_tsquery('Jack');
+
+--Just to see the difference you can run these both queries 
+
+explain analyse SELECT name, artist, text FROM test.dragon
+WHERE to_tsvector(name || ' ' || text ) @@ to_tsquery('Jack')
+
+explain analyse SELECT name, artist, text FROM test.dragon 
+WHERE document @@ to_tsquery('Jack');
+
+--To make it even faster you can create index 
+
+CREATE INDEX document_idx on test.dragon USING GIN (document);
+
+--then execute the queries again
+
+
