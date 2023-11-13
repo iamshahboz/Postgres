@@ -109,4 +109,6 @@ CREATE INDEX document_idx on test.dragon USING GIN (document);
 
 --then execute the queries again
 
+-- 7:38
+
 
