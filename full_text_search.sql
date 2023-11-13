@@ -107,8 +107,41 @@ WHERE document @@ to_tsquery('Jack');
 
 CREATE INDEX document_idx on test.dragon USING GIN (document);
 
+SELECT name, artist, text  FROM test.dragon 
+WHERE document_idx  @@ to_tsquery('Jack');
+
+--or 
+SELECT name, artist, text FROM test.dragon 
+WHERE document @@ plainto_tsquery('Jack')
+order by ts_rank_cd(document, plainto_tsquery('Jack'))
+
 --then execute the queries again
 
--- 7:38
+-- We can also add ranking to see the ranking in the terms of match
+
+-- you can add a new column to make the ranking better
+ALTER TABLE test.dragon
+ADD COLUMN document_with_weight tsvector;
+
+---update it
+UPDATE test.dragon 
+set document_with_weight = setweight(to_tsvector(name), 'A') ||
+setweight(to_tsvector(artist),'B') ||
+setweight(to_tsvector(coalesce(text,'')),'C');
+
+--create index for it 
+CREATE INDEX document_weight_idx on test.dragon USING GIN(document_with_weight);
+
+-- do a query like this
+
+SELECT name, artist, text, ts_rank(document_with_weight, plainto_tsquery('paris'))
+FROM test.dragon
+WHERE document_with_weight @@ plainto_tsquery('paris')
+order by ts_rank(document_with_weight,plainto_tsquery('paris')) desc;
+
+--at the end you will see the ts_rank columns which shows the in numbers
+-- how well it matched
+
+
 
 
