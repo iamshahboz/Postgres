@@ -19,3 +19,59 @@ VALUES(
 -- Then we select all from that table to 
 
 SELECT * FROM test.dragon;
+
+--Usage of full text search
+
+--1. Partial matching
+
+/*
+this query will return results not just Jack but also variations like Jackie, Jack and etc
+
+*/
+
+SELECT name, artist, text FROM test.dragon WHERE to_tsvector(name) @@ to_tsquery('Jack:*');
+
+
+
+--2. Relevance ranking 
+
+/*
+This query orders the results based on their relevance to the term 'Paris'.
+*/
+
+SELECT name, artist, text FROM test.dragon WHERE to_tsvector(text) @@ to_tsquery('Paris') ORDER BY ts_rank(to_tsvector(text), to_tsquery('Paris')) DESC;
+
+-- 3. Multilingual Search
+
+--Russian text added to check for the multilanguage capability of full text search
+
+INSERT INTO test.dragon (name, artist, text)
+VALUES(
+	'Алексей','Валерий Миладзе',
+	'
+	Столица Франции Париж – один из главных европейских городов и мировой центр культуры, искусства, моды и гастрономии. 
+	В центральной части города, построенной в XIX веке, проходят широкие бульвары и протекает река Сена. 
+	Самые известные достопримечательности Парижа – Эйфелева башня и собор Парижской Богоматери в готическом стиле, возведенный в XII веке.
+	')
+
+---
+
+/*
+and now the query  is searching for the term Paris both in English and Russian
+*/
+
+SELECT name, artist, text
+FROM test.dragon
+WHERE to_tsvector('russian', text) @@ to_tsquery('russian', 'Париж')
+   OR to_tsvector('english', text) @@ to_tsquery('english', 'Paris');
+
+
+
+-- 4. Complex queries with Boolean operators
+
+/*
+You want to find documents that contain either 'Paris' or 'London' or both
+*/
+
+SELECT name, artist, text FROM test.dragon WHERE to_tsvector(text) @@ to_tsquery('Paris | London');
+
