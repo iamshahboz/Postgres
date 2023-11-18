@@ -83,13 +83,16 @@ WHERE table_schema = 'tjk11' -- replace with your schema name
 
 
 
--- this will do search for keyword and return back the name of functions which has 
+-- this will do search for keyword and return back the name of functions with schema names which has 
 -- that keyword
 
 SELECT
+    nspname AS schema_name,
     proname AS function_name
 FROM
     pg_proc
+JOIN
+    pg_namespace ON pg_proc.pronamespace = pg_namespace.oid
 WHERE
     prosrc ILIKE '%a291_f10%'
 ORDER BY
