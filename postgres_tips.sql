@@ -67,3 +67,15 @@ ORDER BY
     function_name;
 
 
+-- if you want to get the column with the specific data type 
+-- at table you can do like this
+
+-- for instance, numeric data type
+
+SELECT column_name 
+FROM information_schema.columns
+WHERE table_schema = 'sandbox'
+AND table_name = 'pr_f1_sr_2023'
+AND data_type = 'numeric';
+
+
