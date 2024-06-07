@@ -4,7 +4,7 @@ Note, that all the commands are run in psql
 Create database 
 
 */
-CREATE DATABASE test;
+CREATE DATABASE test_db;
 
 /* list the databases */
 \l 
@@ -14,7 +14,7 @@ CREATE DATABASE test;
 psql -h localhost -p 5432 -U postgres test
 
 /* Delete db */
-DROP DATABASE test;
+DROP DATABASE test_db;
 
 /* Create table
 
