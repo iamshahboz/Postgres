@@ -47,8 +47,18 @@ CREATE TABLE table_name (
     gender,
     date_of_birth,
     email 
-  ) VALUES ('Anna','Tamanova','FEMELE', date '1992-09-12','annatam@gmail.com');
+    country_of_birth
+  ) VALUES ('Anna','Tamanova','FEMELE', date '1992-09-12','annatam@gmail.com','Canada');
  
+
+/*
+SELECT statements
+*/
+SELECT * FROM person; -- select all from person table
+
+SELECT first_name, last_name FROM person; -- selects only first_name and last_name
+
+SELECT * FROM person ORDER BY country_of_birth; --orders the data by country of birth
 
  
  
