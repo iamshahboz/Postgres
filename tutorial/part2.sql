@@ -22,6 +22,19 @@ SELECT * FROM person WHERE country_of_birth ='Canada' OR country_of_birth = 'Chi
 SELECT 1 = 1; -- this will return true
 SELECT 1 = 2; -- this will return false
 
+/* Lets say that we want to select all the people who are older than 30 years old */
+SELECT * FROM person WHERE EXTRACT(YEAR FROM age('2024-01-01',date_of_birth)) > 30;
+
+/* Lets say we want to grab the first 10 people from the table */
+SELECT * FROM person LIMIT 10;
+
+/* We can use offset as well. This will return the 50 records from beginning from the 6th record */
+SELECT * FROM person OFFSET 5 LIMIT 50;
+
+
+
+
+
 
 
 
