@@ -26,5 +26,3 @@ SELECT DISTINCT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth
 SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth HAVING COUNT (*) > 40;
 
 
-
-
