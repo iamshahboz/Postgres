@@ -25,6 +25,10 @@ If you go with INNER JOIN you will get Tom because Adriana don't have a car
 
 But with LEFT JOIN you will get both 
 
+go to 
+joins.spathon.com
+
+
 */
 
 SELECT * FROM person LEFT JOIN car ON car.id = person.car_id;
